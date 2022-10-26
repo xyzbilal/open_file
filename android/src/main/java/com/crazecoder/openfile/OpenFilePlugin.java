@@ -190,7 +190,7 @@ public class OpenFilePlugin implements MethodCallHandler
         }
         Intent intent = new Intent(Intent.ACTION_VIEW);
         if (TYPE_STRING_APK.equals(typeString))
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+           return;
         else
             intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
         intent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -360,27 +360,8 @@ public class OpenFilePlugin implements MethodCallHandler
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private void openApkFile() {
-        if (!canInstallApk()) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                startInstallPermissionSettingActivity();
-            } else {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.REQUEST_INSTALL_PACKAGES}, REQUEST_CODE);
-            }
-        } else {
-            startActivity();
-        }
-    }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private boolean canInstallApk() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            return activity.getPackageManager().canRequestPackageInstalls();
-        }
-        return hasPermission(Manifest.permission.REQUEST_INSTALL_PACKAGES);
-    }
+  
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void startInstallPermissionSettingActivity() {
